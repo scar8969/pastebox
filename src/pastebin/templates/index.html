@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block title %}New paste · pastebin{% endblock %}
+{% block content %}
+<h1>New paste</h1>
+<p style="color:var(--muted);margin:0">
+  The pasted text is encrypted with <code>paste.crypto.encrypt()</code> before it is written to the
+  database; only the token, IV, salt and ciphertext are stored.
+</p>
+
+<form class="card" method="post" action="{{ url_for('create_page') }}">
+  <label for="content">Content</label>
+  <textarea id="content" name="content" required placeholder="paste here…"></textarea>
+  <div class="grid">
+    <div>
+      <label for="password">Password</label>
+      <input id="password" name="password" type="password" required autocomplete="new-password">
+    </div>
+    <div>
+      <label for="expiry">Expiry</label>
+      <select id="expiry" name="expiry">
+        {% for key in expiry_choices %}<option value="{{ key }}">{{ key }}</option>{% endfor %}
+      </select>
+    </div>
+    <div>
+      <label for="lang">Language</label>
+      <select id="lang" name="lang">
+        {% for lang in languages %}<option value="{{ lang }}">{{ lang }}</option>{% endfor %}
+      </select>
+    </div>
+  </div>
+  <div class="chk">
+    <input id="burn" name="burn" type="checkbox" value="1">
+    <label for="burn" style="margin:0">Burn after first read — the JSON <code>GET /p/TOKEN</code> route deletes it after one view</label>
+  </div>
+  <button type="submit">Create paste</button>
+</form>
+
+<h2>Stored pastes — {{ pastes | length }} newest, metadata only</h2>
+<div class="card">
+  {% if pastes %}
+  <table>
+    <thead><tr><th>Token</th><th>Language</th><th>Views</th><th>Burn</th><th>Expires (UTC)</th><th>Created (UTC)</th><th></th></tr></thead>
+    <tbody>
+    {% for p in pastes %}
+      <tr>
+        <td class="mono">{{ p.token }}</td>
+        <td>{{ p.lang }}</td>
+        <td>{{ p.views }}</td>
+        <td>{% if p.burn %}<span class="tag bad">burn</span>{% else %}<span class="tag">keep</span>{% endif %}</td>
+        <td>{% if p.expires_at %}{{ p.expires_at.strftime('%Y-%m-%d %H:%M') }}{% else %}<span class="tag">never</span>{% endif %}</td>
+        <td>{{ p.created_at.strftime('%Y-%m-%d %H:%M') if p.created_at else '—' }}</td>
+        <td><a href="{{ url_for('view_page', token=p.token) }}">view</a></td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <p style="margin:0;color:var(--muted)">No pastes stored yet — the form above writes the first row.</p>
+  {% endif %}
+</div>
+{% endblock %}

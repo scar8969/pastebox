@@ -1,0 +1,23 @@
+openapi: 3.0.0
+info:
+  title: "📋 pastebin"
+  version: 0.1.0
+paths:
+  /api/pastes:
+    post:
+      summary: create
+      responses:
+        "200":
+          description: ok
+  /p/<token>:
+    get:
+      summary: view
+      responses:
+        "200":
+          description: ok
+  /p/<token>:
+    delete:
+      summary: burn
+      responses:
+        "200":
+          description: ok

@@ -66,6 +66,7 @@ Every route below is in [`openapi/pastebox.yaml`](openapi/pastebox.yaml) and is 
 | Method | Path | What it does |
 | --- | --- | --- |
 | `POST` | `/api/pastes` | create |
+| `GET` | `/p/<token>` | view |
 | `DELETE` | `/p/<token>` | burn |
 
 ## Screenshots
@@ -99,11 +100,11 @@ These numbers were produced on this checkout by `pytest --cov` and by booting `w
 
 | Signal | Value |
 | --- | --- |
-| Tests | **24 / 24 passed** (1.5 s, exit 0) |
+| Tests | **24 / 24 passed** (1.7 s, exit 0) |
 | Line coverage | **71.4%** — 425 of 565 statements |
 | Source | 15 files / 1,314 lines |
 | Test code | 4 files / 232 lines |
-| Documented paths | 2 in the spec, 0 GET |
+| Documented paths | 2 in the spec, 1 GET |
 | Live probe | 9 GET requests to the booted app, **8 answered 200** |
 | Median latency | **6.1 ms** (single uncached request, dev server) |
 | Slowest / fastest | 98.2 ms `/` / 4.7 ms `/livez` |

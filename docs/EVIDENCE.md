@@ -4,7 +4,7 @@ Every line below was produced by a command run against this exact checkout, on t
 
 | | |
 | --- | --- |
-| Generated | 2026-10-19 02:24 |
+| Generated | 2026-10-19 02:58 |
 | Python | 3.14.7 |
 | Platform | Windows 11 |
 
@@ -15,7 +15,7 @@ python -m pytest -q
 ```
 
 - exit code **0**
-- 24 passed in 1.52s
+- 24 passed in 1.32s
 
 ## Static gates
 
@@ -32,8 +32,9 @@ The application was imported through `wsgi.py` and each GET path declared in `op
 
 | Status | Path | Bytes | Content-Type |
 | --- | --- | --- | --- |
+| 404 | `/p/1` | 207 | text/html |
 
-0 paths walked, 0 of them raised or answered 5xx.
+1 paths walked, 0 of them raised or answered 5xx.
 
 ## Screenshots
 

@@ -29,7 +29,7 @@ def view(token):
     p = get_paste(token)
     if not p:
         abort(404)
-    if p.expires_at and p.expires_at < datetime.utcnow():
+    if p.expires_at and p.expires_at < datetime.datetime.now(datetime.UTC).replace(tzinfo=None):
         db.session.delete(p)
         db.session.commit()
         abort(410)

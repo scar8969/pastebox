@@ -6,6 +6,7 @@ written against the old package-relative path ('from paste.models import
 Paste') keep working; it forwards to the single declaration instead of
 defining a second model bound to a different SQLAlchemy metadata object.
 """
-from ..models import Paste, db  # noqa: F401
+
+from ..models import Paste, db
 
 __all__ = ["Paste", "db"]

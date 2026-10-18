@@ -8,22 +8,25 @@ The SQLite file also lives in the project-root instance/ directory.
 The browser pages are a thin shell over the same functions the JSON API and the
 CLI use: paste.crypto (PBKDF2-HMAC-SHA256 + AES-256-GCM) and paste.store.
 """
+
 from datetime import datetime
 
+from flask import Flask, jsonify, redirect, render_template, request, url_for
+
+from . import paths
 from .models import Paste, db
 from .paste.api import bp
 from .paste.crypto import decrypt, encrypt
 from .paste.store import _EXPIRY, create_paste, get_paste
 
-from flask import Flask, jsonify, redirect, render_template, request, url_for
-from . import paths
-
 paths.ensure_runtime_dirs()
+
 
 def build_app():
     """Build the application: configuration, database, then routes."""
-    app = Flask(__name__, template_folder=str(paths.TEMPLATES_DIR),
-                instance_path=str(paths.INSTANCE_DIR))
+    app = Flask(
+        __name__, template_folder=str(paths.TEMPLATES_DIR), instance_path=str(paths.INSTANCE_DIR)
+    )
     app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///" + str(paths.INSTANCE_DIR / "pastebin.db")
     db.init_app(app)
     with app.app_context():
@@ -32,10 +35,12 @@ def build_app():
 
     @app.get("/")
     def index():
-        return render_template("index.html",
-                               pastes=Paste.query.order_by(Paste.id.desc()).limit(20).all(),
-                               expiry_choices=list(_EXPIRY.keys()),
-                               languages=["text", "python", "json", "bash", "sql"])
+        return render_template(
+            "index.html",
+            pastes=Paste.query.order_by(Paste.id.desc()).limit(20).all(),
+            expiry_choices=list(_EXPIRY.keys()),
+            languages=["text", "python", "json", "bash", "sql"],
+        )
 
     @app.post("/create")
     def create_page():
@@ -45,9 +50,14 @@ def build_app():
         if not content or not password:
             return redirect(url_for("index"))
         iv, salt, ct = encrypt(content, password)
-        paste = create_paste(ct, iv, salt, request.form.get("lang", "text"),
-                             request.form.get("expiry", ""),
-                             bool(request.form.get("burn")))
+        paste = create_paste(
+            ct,
+            iv,
+            salt,
+            request.form.get("lang", "text"),
+            request.form.get("expiry", ""),
+            bool(request.form.get("burn")),
+        )
         return redirect(url_for("view_page", token=paste.token))
 
     @app.route("/view/<token>", methods=["GET", "POST"])
@@ -61,14 +71,16 @@ def build_app():
             error = "This paste has expired."
         elif request.method == "POST":
             try:
-                plaintext = decrypt(paste.ciphertext, paste.iv, paste.salt,
-                                    request.form.get("password", ""))
+                plaintext = decrypt(
+                    paste.ciphertext, paste.iv, paste.salt, request.form.get("password", "")
+                )
                 paste.views += 1
                 db.session.commit()
             except ValueError as exc:
                 error = str(exc)
-        return render_template("view.html", token=token, paste=paste,
-                               plaintext=plaintext, error=error)
+        return render_template(
+            "view.html", token=token, paste=paste, plaintext=plaintext, error=error
+        )
 
     @app.get("/api/health")
     def health():
@@ -78,5 +90,6 @@ def build_app():
         app.run(host="0.0.0.0", port=5000)
 
     return app
+
 
 app = build_app()

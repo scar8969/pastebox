@@ -1,19 +1,27 @@
-from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
+import base64
+import os
+
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.ciphers.aead import AESGCM
-import os, base64
+from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
+
 
 def derive_key(password, salt):
     kdf = PBKDF2HMAC(algorithm=hashes.SHA256(), length=32, salt=salt, iterations=_ITERS)
     return kdf.derive(password.encode())
+
 
 def encrypt(plaintext, password):
     salt = os.urandom(16)
     iv = os.urandom(12)
     key = derive_key(password, salt)
     ct = AESGCM(key).encrypt(iv, plaintext.encode(), None)
-    return (base64.b64encode(iv).decode(), base64.b64encode(salt).decode(),
-            base64.b64encode(ct).decode())
+    return (
+        base64.b64encode(iv).decode(),
+        base64.b64encode(salt).decode(),
+        base64.b64encode(ct).decode(),
+    )
+
 
 def decrypt(ciphertext_b64, iv_b64, salt_b64, password):
     try:
@@ -22,5 +30,6 @@ def decrypt(ciphertext_b64, iv_b64, salt_b64, password):
         return pt.decode()
     except Exception:
         raise ValueError("wrong password or corrupted paste")
+
 
 _ITERS = 100_000

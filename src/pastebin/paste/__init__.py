@@ -15,6 +15,7 @@ db lives in that root module, so the correct import inside this package is
 and NOT 'from . import db', which would look for a non-existent paste/db.py.
 The handle is re-exported here only so 'from paste import db' keeps working.
 """
-from ..models import Paste, db  # noqa: F401
 
-__all__ = ["db", "Paste"]
+from ..models import Paste, db
+
+__all__ = ["Paste", "db"]

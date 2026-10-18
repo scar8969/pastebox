@@ -3,13 +3,13 @@ requires = ["setuptools>=69", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "b4-pastebin"
+name = "pastebox"
 version = "0.1.0"
-description = "B4 pastebin skeleton — encrypted pastebin."
+description = "Encrypted pastebin: client-keyed pastes, expiry and syntax-highlighted views."
 readme = "README.md"
 requires-python = ">=3.11"
 license = { text = "MIT" }
-authors = [{ name = "project-skeletons maintainers" }]
+authors = [{ name = "Priyanshu Rout" }]
 keywords = ["flask", "service", "pastebin"]
 classifiers = [
   "Development Status :: 4 - Beta",
@@ -47,7 +47,7 @@ Documentation = "https://example.invalid/pastebin/docs"
 Issues = "https://example.invalid/pastebin/issues"
 
 [project.scripts]
-b4-pastebin = "pastebin.cli:main"
+pastebox = "pastebin.cli:main"
 
 [tool.setuptools]
 package-dir = { "" = "src" }

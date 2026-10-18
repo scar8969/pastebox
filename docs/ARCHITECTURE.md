@@ -1,6 +1,6 @@
 # Architecture -- Pastebin
 
-B4 pastebin skeleton — encrypted pastebin.
+B4 pastebin service — encrypted pastebin.
 
 This document explains how the service is put together, why the seams sit where
 they do, and what breaks first under load.
@@ -9,7 +9,7 @@ they do, and what breaks first under load.
 
 ## 1. Context
 
-b4_pastebin is a single-process Flask service. It owns its own database (SQLite by
+pastebox is a single-process Flask service. It owns its own database (SQLite by
 default, any SQLAlchemy-supported backend via `DATABASE_URL`) and is deployed
 behind a reverse proxy or an orchestrator.
 
@@ -73,7 +73,7 @@ flowchart TB
 | `templates/base.html` | asset |
 | `templates/index.html` | asset |
 | `templates/view.html` | asset |
-| `tests/test_b4_pastebin.py` | module |
+| `tests/test_pastebox.py` | module |
 | `_app.py` | asset |
 
 ---
@@ -136,7 +136,7 @@ writable lives under `/app`.
 
 | Table | Owner |
 | --- | --- |
-| `pastes` | owned by `b4_pastebin` |
+| `pastes` | owned by `pastebox` |
 
 Tables are created by the application's own bootstrap on first use. No migration
 tool is wired in; the schema is additive, and the service tolerates a missing or

@@ -1,13 +1,13 @@
-# Pastebin
+# pastebox
 
-> B4 pastebin skeleton — encrypted pastebin.
+> B4 pastebin service — encrypted pastebin.
 
 [![ci](https://img.shields.io/badge/ci-github--actions-blue)](.github/workflows/ci.yml)
 [![python](https://img.shields.io/badge/python-3.11%20%7C%203.12%20%7C%203.13-blue)](pyproject.toml)
 [![license](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
-b4_pastebin is a Flask service delivered as an installable, typed, test-covered
-distribution. The business logic is unchanged from the original skeleton; what
+pastebox is a Flask service delivered as an installable, typed, test-covered
+distribution. The business logic is unchanged from the original service; what
 is new is the engineering around it: a packaging story, a configuration
 contract, structured observability, operational endpoints, a hardened
 container, and the gates that keep all of that true.
@@ -17,7 +17,7 @@ container, and the gates that keep all of that true.
 ## Quickstart
 
 ```sh
-git clone <your-fork> b4_pastebin && cd b4_pastebin
+git clone <your-fork> pastebox && cd pastebox
 python -m venv .venv
 . .venv/bin/activate        # Windows: .venv\Scripts\activate
 pip install -e ".[dev]"
@@ -120,7 +120,7 @@ variable, rather than surfacing as a confusing runtime error later.
 | `/p/<token>` | L | HTML/JSON |
 | `/p/<token>` | T | HTML/JSON |
 
-The frozen machine-readable contract is `openapi/b4_pastebin.yaml`; it is the
+The frozen machine-readable contract is `openapi/pastebox.yaml`; it is the
 source of truth for path and method coverage.
 
 ---
@@ -138,9 +138,9 @@ source of truth for path and method coverage.
 │   ├── ARCHITECTURE.md
 │   └── OPERATIONS.md
 ├── openapi
-│   └── b4_pastebin.yaml
+│   └── pastebox.yaml
 ├── schema
-│   └── b4_pastebin.sql
+│   └── pastebox.sql
 ├── src
 │   └── pastebin
 │       ├── paste
@@ -158,7 +158,7 @@ source of truth for path and method coverage.
 │       └── py.typed
 ├── tests
 │   ├── conftest.py
-│   ├── test_b4_pastebin.py
+│   ├── test_pastebox.py
 │   ├── test_config.py
 │   └── test_ops.py
 ├── .dockerignore

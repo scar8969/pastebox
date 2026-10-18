@@ -1,4 +1,4 @@
-"""B4 pastebin — tests. Run: pytest test_b4_pastebin.py"""
+"""B4 pastebin — tests. Run: pytest test_pastebox.py"""
 import sys, os
 
 import pytest

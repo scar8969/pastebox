@@ -1,4 +1,4 @@
-"""pastebin -- B4 pastebin skeleton — encrypted pastebin."""
+"""pastebin -- B4 pastebin service — encrypted pastebin."""
 from __future__ import annotations
 
 __version__ = "0.1.0"

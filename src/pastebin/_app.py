@@ -9,11 +9,10 @@ The browser pages are a thin shell over the same functions the JSON API and the
 CLI use: paste.crypto (PBKDF2-HMAC-SHA256 + AES-256-GCM) and paste.store.
 """
 
-from datetime import datetime
-
 from flask import Flask, jsonify, redirect, render_template, request, url_for
 
 from . import paths
+from .clock import utcnow
 from .models import Paste, db
 from .paste.api import bp
 from .paste.crypto import decrypt, encrypt
@@ -67,7 +66,7 @@ def build_app():
         plaintext, error = None, None
         if paste is None:
             error = "No paste is stored under this token."
-        elif paste.expires_at and paste.expires_at < datetime.utcnow():
+        elif paste.expires_at and paste.expires_at < utcnow():
             error = "This paste has expired."
         elif request.method == "POST":
             try:

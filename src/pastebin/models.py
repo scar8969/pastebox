@@ -1,6 +1,6 @@
-from datetime import datetime
-
 from flask_sqlalchemy import SQLAlchemy
+
+from .clock import utcnow
 
 db = SQLAlchemy()
 
@@ -16,4 +16,4 @@ class Paste(db.Model):
     expires_at = db.Column(db.DateTime, nullable=True)
     burn = db.Column(db.Integer, default=0)
     views = db.Column(db.Integer, default=0)
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    created_at = db.Column(db.DateTime, default=utcnow)

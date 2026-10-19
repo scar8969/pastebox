@@ -1,6 +1,8 @@
 import secrets
 import string
-from datetime import datetime, timedelta
+from datetime import timedelta
+
+from ..clock import utcnow
 
 _ALPHABET = string.ascii_letters + string.digits
 
@@ -10,7 +12,7 @@ def create_paste(ciphertext, iv, salt, lang, expiry="", burn=False):
 
     expires = None
     if expiry in _EXPIRY:
-        expires = datetime.utcnow() + timedelta(seconds=_EXPIRY[expiry])
+        expires = utcnow() + timedelta(seconds=_EXPIRY[expiry])
     token = "".join(secrets.choice(_ALPHABET) for _ in range(8))
     p = Paste(
         token=token,
@@ -44,7 +46,7 @@ def burn(token):
 def sweep_expired():
     from ..models import Paste, db
 
-    expired = Paste.query.filter(Paste.expires_at < datetime.utcnow()).all()
+    expired = Paste.query.filter(Paste.expires_at < utcnow()).all()
     for p in expired:
         db.session.delete(p)
     db.session.commit()

@@ -119,7 +119,7 @@ Produced on this checkout by `pytest --cov` and by booting `wsgi.py` and issuing
 | --- | --- |
 | Tests | **24 / 24 passed** (1.7 s, exit 0) |
 | Line coverage | **71.4%** — 425 of 565 statements |
-| Source | 15 files / 1,315 lines |
+| Source | 15 files / 1,334 lines |
 | Test code | 4 files / 232 lines |
 | Documented paths | 2 in the spec, 1 GET |
 | Live probe | 9 GET requests to the booted app, **8 answered 200** |
@@ -156,9 +156,9 @@ pastebox/
 │   ├── config.py                       168  Environment-driven configuration for pastebin
 │   ├── app.py                          119  Application factory for pastebin
 │   ├── errors.py                       108  Typed application errors and their HTTP mapping for 
-│   ├── _app.py                          96  pastebox — Flask application entry point
+│   ├── _app.py                          95  pastebox — Flask application entry point
 │   ├── paste/api.py                     58  
-│   ├── paste/store.py                   55  
+│   ├── paste/store.py                   57  
 │   ├── paths.py                         52  Filesystem layout for pastebin
 │   ├── cli.py                           42  
 │   ├── paste/crypto.py                  36  
